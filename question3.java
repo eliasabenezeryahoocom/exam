@@ -1,55 +1,55 @@
-import java.util.Arrays;
-public class question3 {
+import java.util.Stack;
 
+public class LinearQueue {
+    private Stack<Integer> stack1;
+    private Stack<Integer> stack2;
 
+    public LinearQueue() {
+        stack1 = new Stack<>();
+        stack2 = new Stack<>();
+    }
 
-
-    public question3  {
-
-        static void mergeSort(int[] NUMs) {
-            int inputLength = NUMs.length;
-            if(inputLength <= 1) {
-                return;
-            }
-            int midIndex = inputLength / 2;
-            int[] leftHalf = new int[midIndex];
-            int[] rightHalf = new int[inputLength - midIndex];
-
-            for(int i = 0, j=0; i < inputLength; i++) {
-                if(i < midIndex ) {
-                    leftHalf[i] = NUMs[i];
-                }else {
-                    rightHalf[j++] = NUMs[i];
-                }
-            }
-            mergeSort(leftHalf);
-            mergeSort(rightHalf);
-            merge(NUMs, leftHalf, rightHalf);
+    public void enqueue(int num) {
+        while (!stack1.isEmpty()) {
+            stack2.push(stack1.pop());
         }
-        static void merge(int[] NUMs, int[] leftHalf, int[] rightHalf) {
-            int leftSize = NUMs.length / 2;
-            int rightSize = NUMs.length - leftSize;
-            int i = 0,j = 0,k = 0;
-            while(i < leftSize && j < rightSize) {
-                if(leftHalf[i] <= rightHalf[j]) {
-                    NUMs[k++] = leftHalf[i++];
-                }else {
-                    NUMs[k++] = rightHalf[j++];
-                }
-            }
-            while(i < leftSize) {
-                NUMs[k++] = leftHalf[i++];
-            }
-            while(j < rightSize) {
-                NUMs[k++] = rightHalf[j++];
-            }
+        stack1.push(num);
+        while (!stack2.isEmpty()) {
+            stack1.push(stack2.pop());
         }
+    }
 
-        public static void main(String[] args) {
+    public int dequeue() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+        return stack1.pop();
+    }
 
-            int[] NUMs = {1,2,4,5,6,32,2};
-            mergeSort(NUMs);
-            System.out.println(Arrays.toString(NUMs));
+    public int peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+        return stack1.peek();
+    }
+
+    public boolean isEmpty() {
+        return stack1.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        LinearQueue queue = new LinearQueue();
+
+        queue.enqueue(10);
+        queue.enqueue(20);
+        queue.enqueue(30);
+
+        System.out.println(queue.dequeue()); // Output: 10
+        System.out.println(queue.peek()); // Output: 20
+        System.out.println(queue.isEmpty()); // Output: false
+    }
+}
+
 
 
         }
